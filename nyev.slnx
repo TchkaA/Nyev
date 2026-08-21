@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/nyev.console/nyev.console.csproj" />
+    <Project Path="src/nyev.core/nyev.core.csproj" Id="d8ed4353-482a-410d-b39d-f8ba53602bf3" />
+  </Folder>
+  <Project Path="nyev.csproj" Id="6261e287-cb77-4fbb-8eab-2617924cc55d" />
+</Solution>
