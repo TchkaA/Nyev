@@ -23,6 +23,6 @@ public class MyClass
 wp.Train(sampleCode);
 Console.WriteLine("Введи слово для угадывания!");
 var word = Console.ReadLine();
-Console.WriteLine("\n Вероятное слово - " + wp.Predict(word));
-
+Console.WriteLine("\n Вероятное слово - " + wp.Predict(word) + '\n');
+Console.WriteLine("Умное предсказывание для super duper public - " + wp.PredictSmart("super duper public") + "\n\n" );
 wp.Test();

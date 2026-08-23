@@ -7,7 +7,7 @@ public class WordPrediction
     // Обучить на тексте
     public void Train(string text, int contextSize = 2)
     {
-        string[] tokens = Regex.Matches(text, @"\w+")
+        string[] tokens = Regex.Matches(text.ToLower(), @"\w+")
         .Select(m => m.Value)
         .ToArray();
 
@@ -42,6 +42,29 @@ public class WordPrediction
         var nextWords = _transitions[context];
         string bestWord = nextWords.OrderByDescending(x => x.Value).First().Key;
         return bestWord;
+    }
+
+    public string PredictSmart(string context)
+    {
+        string[] parts = context.ToLower().Split(' ');
+        
+        for (int i = 0; i < parts.Length; i++)
+        {
+            var currentContextParts = parts.Skip(i);
+            var key = string.Join(" ", currentContextParts);
+            
+            if (_transitions.ContainsKey(key))
+            {
+                var nextWords = _transitions[key];
+                if (nextWords.Any()) 
+                {
+                    string bestWord = nextWords.OrderByDescending(x => x.Value).First().Key;
+                    return bestWord;
+                }
+            }
+        }
+        
+        return "";
     }
 
     public void Test()
