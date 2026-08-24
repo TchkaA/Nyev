@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using System.Text.Json;
+using System.IO;
 
 public class WordPrediction
 {
@@ -76,5 +78,46 @@ public class WordPrediction
         
         prediction = Predict("class");
         Console.WriteLine($"После 'class' предсказано: {prediction}");
+    }
+
+    /*
+    |-----------------------|
+    |          save         |
+    |-----------------------|
+    */
+    public string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "Models");
+    public string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Nyev.json");
+    public void save()
+    {
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+            Console.WriteLine("Папка создана");
+        }
+        if (!File.Exists(filePath))
+        {
+            string json = JsonSerializer.Serialize(_transitions);
+            File.WriteAllText(filePath, json);
+        }
+        else
+        {
+            Console.WriteLine("File already exist");
+        }
+    }
+
+    public void Load()
+    {
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("Файл не найден, возвращаю пустой объект");
+            return;
+        }
+        
+        string jsonString = File.ReadAllText(filePath);
+        _transitions = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, int>>>(jsonString);
+        if (_transitions == null)
+        {
+            _transitions = new();
+        }
     }
 }
